@@ -1,0 +1,11 @@
+node_modules
+dist
+*.zip
+*.log
+coverage
+.env
+.env.local
+.env.production
+.env.test
+docs/api
+bun.lockb

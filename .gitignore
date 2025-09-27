@@ -1,0 +1,114 @@
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build outputs
+dist/
+out/
+*.zip
+*.tgz
+*.crx
+*.pem
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.test
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Temporary folders
+tmp/
+temp/
+
+# API Documentation (generated)
+docs/api/
+
+# Extension development
+web-ext-artifacts/
+
+# Testing
+.bun-test-cache-*
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Misc
+*.tsbuildinfo
+
+# Sensitive files - API keys, credentials, private docs
+.env*
+.secrets
+secrets.json
+keys/
+credentials/
+wallet.json
+private-keys.txt
+api-keys.txt
+
+# Nillion specific sensitive files
+nillion-config.json
+nildb-keys/
+secretvaults-config/
+testnet-credentials.json
+
+# Documentation with sensitive info
+docs/SENSITIVE_CONFIG.md
+docs/PRIVATE_SETUP.md
+docs/API_KEYS.md
+docs/WALLET_INFO.md
+todo.md
+
+# User data and test data
+user-data/
+test-data/
+sample-documents/
+mock-data/
+
+# Extension signing keys
+*.p12
+*.key
+private.pem
+public.pem
+
+# Backup files with potential sensitive data
+*.backup
+*.bak
+*-backup.*
+
+# Project files (keep in repo)
+# .PDM-Development-Guide.md

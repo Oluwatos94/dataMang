@@ -1,0 +1,75 @@
+{
+  "name": "pdm-extension",
+  "version": "1.0.0",
+  "description": "Private Data Manager - Browser extension for Nillion's SecretVaults",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run build:dev --watch",
+    "build": "bun run build:prod",
+    "build:dev": "bun run clean && bun run compile:dev && bun run copy:assets",
+    "build:prod": "bun run clean && bun run compile:prod && bun run copy:assets && bun run package",
+    "compile:dev": "bun build src/background/background.ts --outdir dist --target browser --format esm --sourcemap && bun build src/content/content.ts --outdir dist --target browser --format esm --sourcemap && bun build src/popup/popup.tsx --outdir dist --target browser --format esm --sourcemap",
+    "compile:prod": "bun build src/background/background.ts --outdir dist --target browser --format esm --minify && bun build src/content/content.ts --outdir dist --target browser --format esm --minify && bun build src/popup/popup.tsx --outdir dist --target browser --format esm --minify",
+    "clean": "rm -rf dist/* && mkdir -p dist",
+    "copy:assets": "cp manifest.json dist/ && cp popup.html dist/ && cp -r assets dist/ 2>/dev/null || true",
+    "package": "cd dist && zip -r ../pdm-extension.zip .",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "lint": "bun run lint:ts && bun run lint:format",
+    "lint:ts": "tsc --noEmit",
+    "lint:format": "prettier --check src/**/*.{ts,tsx}",
+    "format": "prettier --write src/**/*.{ts,tsx}",
+    "type-check": "tsc --noEmit",
+    "docs:generate": "typedoc src --out docs/api",
+    "serve": "bun run build:dev && python3 -m http.server 8080 -d dist",
+    "start:chrome": "google-chrome --load-extension=./dist --disable-extensions-except=./dist",
+    "start:firefox": "web-ext run --source-dir=./dist",
+    "validate": "bun run type-check && bun run test && bun run lint",
+    "prepare": "bun run validate && bun run build:prod",
+    "security:audit": "bun audit",
+    "analyze:bundle": "bun build src/popup/popup.tsx --outdir dist --target browser --format esm --analyze"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/chrome": "^0.1.12",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "typescript": "^5.9.2",
+    "prettier": "^3.0.0",
+    "typedoc": "^0.25.0",
+    "web-ext": "^7.8.0"
+  },
+  "dependencies": {
+    "@nillion/client-core": "^0.1.0",
+    "@nillion/client-web": "^0.6.0",
+    "@nillion/secretvaults": "^0.1.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "browser-extension",
+    "privacy",
+    "encryption",
+    "nillion",
+    "secretvaults",
+    "data-management",
+    "web3"
+  ],
+  "author": "PDM Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/pdm-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/pdm-extension/issues"
+  },
+  "homepage": "https://github.com/your-org/pdm-extension#readme"
+}
