@@ -358,39 +358,16 @@ const result = await window.PDM.storeData({
 });
 ```
 
----
-
-## 🎨 Demo Mode (Important for Judges!)
-
-Since Nillion network authentication may have intermittent issues, we implemented **Demo Mode** that automatically activates when the network is unavailable.
+--- 
 
 ### How It Works:
-1. Extension tries to connect to Nillion network
-2. If connection fails (e.g., "empty token" error), demo mode activates
-3. All operations seamlessly switch to localStorage
-4. Demo mode flag persists across sessions
 
-### Demo Mode Features:
+### Features:
 - ✅ Full CRUD operations on documents
 - ✅ Permission granting and revoking
 - ✅ Consistent DID across sessions
 - ✅ Data persistence in browser
 
-
----
-
-## 🎯 Submission Checklist
-
-- ✅ **Working Chrome Extension** - Fully functional with all features
-- ✅ **DID Management** - Secure generation and encrypted storage
-- ✅ **Data Dashboard** - Create, view, delete operations
-- ✅ **Permission UI** - Grant and revoke through intuitive interface
-- ✅ **Sample App** - Health tracker demonstrates real integration
-- ✅ **Documentation** - Comprehensive README and inline comments
-- ✅ **Demo Mode** - Works without network dependency
-- ✅ **Security** - Encryption, session management, rate limiting
-- ✅ **postMessage API** - Secure app-extension communication
-- ✅ **User Owned Collections** - Apps provide collection IDs, users own data
 
 ---
 
