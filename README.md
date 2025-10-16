@@ -8,10 +8,6 @@
 
 ---
 
-## 📹 Demo Video
-
-**[→ Watch the 5-minute demo walkthrough](#)**
-
 ---
 
 ## 🎯 Challenge Solution
@@ -25,7 +21,7 @@ Nillion's `SecretVaultUserClient` requires developer skills and backend flows th
 - 🔑 **Secure DID & Keypair Management** - Browser-based wallet with encrypted storage
 - 📊 **Intuitive Dashboard** - Create, view, and delete private data without code
 - ✅ **User Consent System** - Grant and revoke app permissions through a simple UI
-- 🔄 **Demo Mode Fallback** - Works even when Nillion network is unavailable (perfect for judging!)
+- 🔄 **Demo Mode Fallback** - Works even when Nillion network is unavailable.
 
 ---
 
@@ -63,7 +59,7 @@ Nillion's `SecretVaultUserClient` requires developer skills and backend flows th
 ### Prerequisites
 - **Chrome Browser** (version 88+)
 - **Bun Runtime** ([install here](https://bun.sh))
-- **5 minutes of your time** ⏱️
+- **5 minutes of your time**
 
 ### Step 1: Install Dependencies
 ```bash
@@ -99,7 +95,7 @@ cp src/offscreen/offscreen.html dist/
 1. **Right-click the PDM extension icon** → Select **"Extension options"**
 2. Enter the following test credentials:
    - **API Key:** (your Nillion API key)
-   - **Private Key:** (optional - leave blank for demo mode)
+   - **Private Key:** (optional)
    - **Password:** `demo123` (or your chosen password)
 3. Click **"Save Credentials"**
 4. You should see ✅ "Credentials saved successfully!"
