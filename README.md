@@ -19,7 +19,7 @@
 ### The Problem
 Nillion's `SecretVaultUserClient` requires developer skills and backend flows that force users to trust apps with their keys. Non-developers have no way to interact with their private storage.
 
-### Our Solution
+### Solution
 **Private Data Manager (PDM)** is a browser extension that makes Nillion's privacy-preserving storage accessible to everyday people through:
 
 - 🔑 **Secure DID & Keypair Management** - Browser-based wallet with encrypted storage
