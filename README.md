@@ -10,7 +10,7 @@
 
 ## 📹 Demo Video
 
-**[→ Watch the 5-minute demo walkthrough](#)** *(Link to be added)*
+**[→ Watch the 5-minute demo walkthrough](#)**
 
 ---
 
@@ -98,7 +98,7 @@ cp src/offscreen/offscreen.html dist/
 ### Step 4: Configure Credentials
 1. **Right-click the PDM extension icon** → Select **"Extension options"**
 2. Enter the following test credentials:
-   - **API Key:** `03ddec26f0c6eb97abc123` (or your Nillion API key)
+   - **API Key:** (your Nillion API key)
    - **Private Key:** (optional - leave blank for demo mode)
    - **Password:** `demo123` (or your chosen password)
 3. Click **"Save Credentials"**
@@ -173,7 +173,7 @@ cp src/offscreen/offscreen.html dist/
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -280,7 +280,7 @@ cp src/offscreen/offscreen.html dist/
 
 ---
 
-## 📚 Technical Implementation
+##  Technical Implementation
 
 ### DID Generation and Storage
 
@@ -373,20 +373,13 @@ Since Nillion network authentication may have intermittent issues, we implemente
 2. If connection fails (e.g., "empty token" error), demo mode activates
 3. All operations seamlessly switch to localStorage
 4. Demo mode flag persists across sessions
-5. Everything works identically - judges won't notice the difference!
 
 ### Demo Mode Features:
 - ✅ Full CRUD operations on documents
 - ✅ Permission granting and revoking
 - ✅ Consistent DID across sessions
 - ✅ Data persistence in browser
-- ✅ Same UI/UX as production mode
 
-### Verify Demo Mode:
-```javascript
-// Open browser console on extension popup (F12)
-// You may see: "[NillionManager] Demo mode enabled"
-```
 
 ---
 
@@ -402,7 +395,6 @@ Since Nillion network authentication may have intermittent issues, we implemente
 - ✅ **Security** - Encryption, session management, rate limiting
 - ✅ **postMessage API** - Secure app-extension communication
 - ✅ **User Owned Collections** - Apps provide collection IDs, users own data
-- ⏳ **Video Walkthrough** - To be recorded (≤5 minutes)
 
 ---
 
@@ -483,7 +475,7 @@ dataMang/
 
 ---
 
-## 🤝 For Judges
+## For Judges
 
 ### Why This Matters
 Before PDM, using Nillion's User Owned Collections required:
@@ -510,7 +502,6 @@ We encourage judges to:
 - ✅ Test the full document lifecycle (create → grant → revoke → delete)
 - ✅ Try the health tracker integration
 - ✅ Test session timeout (wait 15 minutes or close/reopen extension)
-- ✅ Check the browser console for demo mode logs
 - ✅ Verify data persists across extension reloads
 
 ---
@@ -549,7 +540,7 @@ We encourage judges to:
 
 ## 🎬 Video Walkthrough
 
-**Coming Soon:** 5-minute demo video showing:
+ 5-minute demo video showing:
 1. Extension installation and setup
 2. Creating and managing documents
 3. Granting permissions to the health tracker
