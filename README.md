@@ -528,7 +528,7 @@ MIT License - Built for Nillion Hackathon 2025
 
 ---
 
-**Thank you for judging our submission! We believe Private Data Manager takes a big step toward making privacy-preserving storage accessible to everyone.** 🚀
+**Thank you for your time to judging my submission! I believe Private Data Manager takes a big step toward making privacy-preserving storage accessible to everyone.** 🚀
 
 For questions or issues during judging, please refer to the troubleshooting section above or check the inline code comments.
 
