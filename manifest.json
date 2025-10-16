@@ -19,10 +19,15 @@
     "activeTab",
     "scripting",
     "unlimitedStorage",
-    "alarms"
+    "alarms",
+    "declarativeNetRequest",
+    "offscreen"
   ],
 
   "host_permissions": [
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*",
+    "http://172.17.53.75:3000/*",
     "https://nildb-stg-n1.nillion.network/*",
     "https://nildb-stg-n2.nillion.network/*",
     "https://nildb-stg-n3.nillion.network/*",
@@ -31,8 +36,11 @@
   ],
 
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:3000 http://127.0.0.1:3000 http://172.17.53.75:3000 https://*.nillion.network https://*.nillion.com;"
   },
 
   "action": {
@@ -59,15 +67,14 @@
     {
       "resources": [
         "popup.html",
-        "assets/icons/*"
+        "assets/icons/*",
+        "injected-script.js",
+        "offscreen.html",
+        "offscreen.js"
       ],
       "matches": ["<all_urls>"]
     }
   ],
-
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://nildb-stg-n1.nillion.network https://nildb-stg-n2.nillion.network https://nildb-stg-n3.nillion.network https://*.nillion.com https://*.nillion.network;"
-  },
 
   "commands": {
     "toggle-popup": {
@@ -101,11 +108,5 @@
     ]
   },
 
-  "minimum_chrome_version": "88",
-
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...",
-
-  "externally_connectable": {
-    "matches": []
-  }
+  "minimum_chrome_version": "88"
 }

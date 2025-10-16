@@ -1,0 +1,14 @@
+{
+  "name": "pdm-nillion-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend proxy server for PDM extension to Nillion network",
+  "scripts": {
+    "dev": "bun --hot server.ts",
+    "start": "bun server.ts"
+  },
+  "dependencies": {
+    "@nillion/secretvaults": "latest",
+    "@nillion/nuc": "latest"
+  }
+}

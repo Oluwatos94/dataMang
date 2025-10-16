@@ -340,7 +340,6 @@ export class PermissionManager {
     });
 
     // In a real implementation, this would notify the resource owner
-    console.log(`Permission request created: ${request.id}`);
 
     return request.id;
   }

@@ -31,16 +31,16 @@ export class IdentityManager {
   }
 
   private async initializeCrypto(): Promise<void> {
-    if (!window.crypto || !window.crypto.subtle) {
+    if (!crypto || !crypto.subtle) {
       throw new Error('WebCrypto API not available');
     }
   }
 
   async generateDID(): Promise<string> {
     const randomBytes = new Uint8Array(32);
-    window.crypto.getRandomValues(randomBytes);
+    crypto.getRandomValues(randomBytes);
 
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', randomBytes);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', randomBytes);
     const hashArray = new Uint8Array(hashBuffer);
     const hashHex = Array.from(hashArray)
       .map(b => b.toString(16).padStart(2, '0'))
@@ -53,7 +53,7 @@ export class IdentityManager {
     const encoder = new TextEncoder();
     const passwordBuffer = encoder.encode(password);
 
-    const keyMaterial = await window.crypto.subtle.importKey(
+    const keyMaterial = await crypto.subtle.importKey(
       'raw',
       passwordBuffer,
       'PBKDF2',
@@ -61,7 +61,7 @@ export class IdentityManager {
       ['deriveKey']
     );
 
-    return await window.crypto.subtle.deriveKey(
+    return await crypto.subtle.deriveKey(
       {
         name: 'PBKDF2',
         salt: salt as BufferSource,
@@ -81,14 +81,14 @@ export class IdentityManager {
   async encryptData(data: string, password: string): Promise<EncryptedData> {
     const salt = new Uint8Array(16);
     const iv = new Uint8Array(12);
-    window.crypto.getRandomValues(salt);
-    window.crypto.getRandomValues(iv);
+    crypto.getRandomValues(salt);
+    crypto.getRandomValues(iv);
 
     const key = await this.deriveKey(password, salt);
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(data);
 
-    const encrypted = await window.crypto.subtle.encrypt(
+    const encrypted = await crypto.subtle.encrypt(
       {
         name: 'AES-GCM',
         iv
@@ -111,7 +111,7 @@ export class IdentityManager {
 
     const key = await this.deriveKey(password, salt);
 
-    const decrypted = await window.crypto.subtle.decrypt(
+    const decrypted = await crypto.subtle.decrypt(
       {
         name: 'AES-GCM',
         iv

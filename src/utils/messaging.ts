@@ -85,9 +85,11 @@ export class MessageHandler {
   }
 
   private initializeMessageListener(): void {
-    window.addEventListener('message', (event) => {
-      this.handleMessage(event);
-    });
+    if (typeof window !== 'undefined') {
+      window.addEventListener('message', (event) => {
+        this.handleMessage(event);
+      });
+    }
   }
 
   private startCleanupInterval(): void {
@@ -292,7 +294,6 @@ export class MessageHandler {
   private async showApprovalDialog(request: PendingRequest): Promise<boolean> {
     // In a real implementation, this would open the extension popup
     // or show a notification for user approval
-    console.log(`Approval required for ${request.action} from ${request.origin}`);
 
     // For now, auto-approve for demo purposes
     // In production, this would wait for user interaction
@@ -522,7 +523,6 @@ export class MessageHandler {
     const request = this.pendingRequests.get(messageId);
     if (request) {
       // This would trigger the approval in the real implementation
-      console.log(`Approved request ${messageId}`);
     }
   }
 
@@ -530,7 +530,6 @@ export class MessageHandler {
     const request = this.pendingRequests.get(messageId);
     if (request) {
       this.pendingRequests.delete(messageId);
-      console.log(`Denied request ${messageId}`);
     }
   }
 

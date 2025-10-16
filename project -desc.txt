@@ -1,0 +1,49 @@
+🗂️ Private Data Manager (PDM)
+🧩Challenge Overview
+
+Build a browser extension for Nillion’s Private Storage that gives non-developers full control over their User Owned Collections. Today, interacting with Nillion’s SecretVaultUserClient requires developer skills and backend flows that force users to trust apps with their keys. What’s missing is a user-facing interface that:
+
+
+    Manages a user’s DID and keypair securely in the browser
+    Provides a dashboard to create, view, and delete private data
+    Lets users grant and revoke app permissions for read-only or full access
+
+
+The goal: make privacy-preserving storage usable by everyday people while giving apps the access they need through user consent.
+
+
+📋 Submission Essentials
+
+    Demo or prototype of the browser extension (Chrome or Firefox)
+    Documentation covering:
+    How DID generation and storage are handled
+    How data is created, listed, viewed, and deleted
+    How permissions are granted/revoked through the UI
+    Short video walkthrough (≤5 min) demonstrating the end-to-end flow with a sample app (e.g., a health tracker requesting read access)
+    (Optional) Activity log or audit trail of permission changes
+
+
+⚙️ Required Technologies
+
+    Nillion Private Storage (User Owned Collections)
+    SecretVaults-ts library
+    Nillion Private Storage Docs
+    Browser Extension APIs (Chrome/Firefox)
+    Secure storage for keypairs within the extension
+    postMessage API for app–extension communication
+    (Optional) Privy Chrome Extension SDK for identity/wallet UX
+
+Example project ideas
+
+    Private Data Dashboard – A browser extension that lists all a user’s Nillion documents and collections, with options to add, view, and delete data
+    App Permission Manager – A UI that wraps grantAccess() and revokeAccess(), showing which apps have access and allowing users to change permissions anytime
+    Identity Wallet – An extension that generates and stores the user’s DID/keypair securely, and provides a discoverable DID to apps via postMessage
+
+✅Submission Requirements
+
+    github
+    demo
+    documentation
+    summary
+
+✅Required Technologies
