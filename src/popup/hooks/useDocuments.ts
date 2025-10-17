@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Document } from '../../utils/data';
 
-// Helper to send messages to background script
 async function sendToBackground(action: string, data: any = {}): Promise<any> {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(

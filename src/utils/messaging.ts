@@ -192,37 +192,31 @@ export class MessageHandler {
     try {
       const message: PDMMessage = event.data;
 
-      // Validate message structure
       if (!this.validateMessage(message)) {
         this.sendError(event.source as Window, 'Invalid message format', (message as any)?.id);
         return;
       }
 
-      // Check origin
       if (!this.isOriginAllowed(event.origin)) {
         this.sendError(event.source as Window, 'Origin not allowed', message.id);
         return;
       }
 
-      // Check rate limiting
       if (!this.checkRateLimit(event.origin)) {
         this.sendError(event.source as Window, 'Rate limit exceeded', message.id);
         return;
       }
 
-      // Check action permissions
       if (!this.isActionAllowed(event.origin, message.action)) {
         this.sendError(event.source as Window, 'Action not allowed', message.id);
         return;
       }
 
-      // Update origin last used
       const config = this.allowedOrigins.get(event.origin);
       if (config) {
         config.lastUsed = Date.now();
       }
 
-      // Handle the message
       await this.processMessage(message, event.source as Window, event.origin);
     } catch (error) {
       console.error('Error handling message:', error);
@@ -251,13 +245,11 @@ export class MessageHandler {
     source: Window,
     origin: string
   ): Promise<void> {
-    // Check if user approval is required
     if (this.requiresUserApproval(origin, message.action)) {
       await this.handleApprovalRequired(message, source, origin);
       return;
     }
 
-    // Process the message directly
     const response = await this.executeAction(message, origin);
     this.sendResponse(source, response);
   }
@@ -278,7 +270,6 @@ export class MessageHandler {
 
     this.pendingRequests.set(message.id, pendingRequest);
 
-    // Show user approval dialog (in popup or notification)
     const approved = await this.showApprovalDialog(pendingRequest);
 
     if (approved) {
@@ -399,7 +390,6 @@ export class MessageHandler {
     const existingConfig = this.allowedOrigins.get(origin);
 
     if (!existingConfig) {
-      // New origin, create configuration
       const config: OriginConfig = {
         origin,
         permissions: connectionData.requestedPermissions || ['read'],
@@ -475,7 +465,6 @@ export class MessageHandler {
     }
   }
 
-  // Public methods for managing origins
   async addAllowedOrigin(
     origin: string,
     permissions: PermissionType[] = ['read'],

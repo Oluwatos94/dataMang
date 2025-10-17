@@ -3,8 +3,6 @@ import type { ViewType } from './types';
 import { useIdentity } from './hooks/useIdentity';
 import { useDocuments } from './hooks/useDocuments';
 import { usePermissions } from './hooks/usePermissions';
-
-// Components
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
 import { LoadingSpinner } from './components/common/LoadingSpinner';

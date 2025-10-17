@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { UserIdentity } from '../types';
 
-// Helper to send messages to background script
 async function sendToBackground(action: string, data: any = {}): Promise<any> {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
@@ -51,7 +50,8 @@ export function useIdentity() {
         setIdentity({
           did: identityResult.did,
           publicKey: '',
-          createdAt: Date.now()
+          createdAt: Date.now(),
+          lastAccessed: Date.now()
         });
       } else {
         setIdentity(null);

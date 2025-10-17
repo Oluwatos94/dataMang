@@ -4,4 +4,5 @@ export interface UserIdentity {
   did: string;
   createdAt: number;
   lastAccessed: number;
+  publicKey: string;
 }

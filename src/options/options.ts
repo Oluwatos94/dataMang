@@ -1,6 +1,5 @@
 // Options page script for credential management
 
-// Check current credentials status
 async function checkStatus() {
   try {
     const statusText = document.getElementById('statusText');
@@ -84,5 +83,4 @@ function showStatus(message: string, type: string) {
   }, 5000);
 }
 
-// Check status on load
 checkStatus();

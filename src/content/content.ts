@@ -1,9 +1,5 @@
 // Content script for PDM extension
 // Handles communication between web pages and the extension
-
-import type { PDMMessage } from '../utils/messaging';
-
-
 interface PendingRequest {
   resolve: (value: any) => void;
   reject: (reason: any) => void;
@@ -21,7 +17,6 @@ class PDMContentScript {
   }
 
   private checkExtensionContext() {
-    // Periodically check if extension context is still valid
     setInterval(() => {
       if (!chrome.runtime?.id && !this.contextInvalidated) {
         this.contextInvalidated = true;
@@ -57,18 +52,15 @@ class PDMContentScript {
   }
 
   private init() {
-    // Listen for messages from the injected page script
     window.addEventListener('message', (event) => {
       this.handlePageMessage(event);
     });
 
-    // Listen for responses from the background script
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       this.handleBackgroundResponse(message);
-      return true; // Keep channel open for async response
+      return true;
     });
 
-    // Inject the PDM API into the page
     this.injectAPI();
 
   }
@@ -78,7 +70,7 @@ class PDMContentScript {
     const script = document.createElement('script');
     script.src = chrome.runtime.getURL('injected-script.js');
     script.onload = () => {
-      script.remove(); // Clean up after injection
+      script.remove();
     };
 
     // Inject at document_start to ensure it's available early
@@ -98,10 +90,8 @@ class PDMContentScript {
 
     const message = event.data;
 
-    // Only handle PDM requests
     if (!message || message.type !== 'PDM_REQUEST') return;
 
-    // Validate message structure
     if (!message.id || !message.action || !message.origin) {
       console.warn('PDM: Rejected malformed message:', message);
       return;
@@ -109,14 +99,12 @@ class PDMContentScript {
 
     console.log('Content script received message from page:', message);
 
-    // Forward to background script
     this.forwardToBackground(message);
   }
 
   private forwardToBackground(message: any) {
     const messageId = message.id;
 
-    // Create timeout for this request
     const timeout = window.setTimeout(() => {
       const pending = this.pendingRequests.get(messageId);
       if (pending) {
@@ -126,14 +114,12 @@ class PDMContentScript {
       }
     }, this.REQUEST_TIMEOUT);
 
-    // Store pending request
     this.pendingRequests.set(messageId, {
       resolve: (data) => this.sendResponseToPage(messageId, data),
       reject: (error) => this.sendErrorToPage(messageId, error),
       timeout
     });
 
-    // Send to background script and handle response via sendResponse callback
     chrome.runtime.sendMessage(
       {
         type: 'PDM_MESSAGE',
@@ -147,7 +133,6 @@ class PDMContentScript {
       (response) => {
         // Handle the response from background
 
-        // Check for runtime errors
         if (chrome.runtime.lastError) {
           console.error('[Content] Runtime error:', chrome.runtime.lastError);
           const pending = this.pendingRequests.get(messageId);
@@ -159,7 +144,6 @@ class PDMContentScript {
           return;
         }
 
-        // Process the response
         const pending = this.pendingRequests.get(messageId);
         if (!pending) {
           console.error('[Content] No pending request for:', messageId);
@@ -169,7 +153,6 @@ class PDMContentScript {
         clearTimeout(pending.timeout);
         this.pendingRequests.delete(messageId);
 
-        // Check if it's a PDM_RESPONSE
         if (response && response.type === 'PDM_RESPONSE') {
           if (response.payload.error) {
             this.sendErrorToPage(messageId, response.payload.error);
@@ -203,11 +186,9 @@ class PDMContentScript {
     }
 
 
-    // Clear timeout
     clearTimeout(pending.timeout);
     this.pendingRequests.delete(messageId);
 
-    // Send response to page
     if (message.payload.error) {
       this.sendErrorToPage(messageId, message.payload.error);
     } else {
@@ -240,7 +221,6 @@ class PDMContentScript {
   }
 }
 
-// Initialize content script
 new PDMContentScript();
 
 export {};

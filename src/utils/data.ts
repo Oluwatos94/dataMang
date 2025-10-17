@@ -185,52 +185,52 @@ export class DataManager {
     }
   }
 
-  // async updateDocument(
-  //   documentId: string,
-  //   updates: Partial<Pick<Document, 'title' | 'content' | 'tags'>>
-  // ): Promise<void> {
-  //   const document = await this.getDocument(documentId);
-  //   if (!document) {
-  //     throw new Error('Document not found');
-  //   }
+  async updateDocument(
+    documentId: string,
+    updates: Partial<Pick<Document, 'title' | 'content' | 'tags'>>
+  ): Promise<void> {
+    const document = await this.getDocument(documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
 
-  //   const did = await this.identityManager.getDID();
-  //   if (!did || document.metadata.owner !== did) {
-  //     throw new Error('Unauthorized: You can only update your own documents');
-  //   }
+    const did = await this.identityManager.getDID();
+    if (!did || document.metadata.owner !== did) {
+      throw new Error('Unauthorized: You can only update your own documents');
+    }
 
-  //   const now = Date.now();
-  //   const updatedDocument: Document = {
-  //     ...document,
-  //     ...updates,
-  //     version: document.version + 1,
-  //     metadata: {
-  //       ...document.metadata,
-  //       updatedAt: now,
-  //       lastAccessed: now
-  //     }
-  //   };
+    const now = Date.now();
+    const updatedDocument: Document = {
+      ...document,
+      ...updates,
+      version: document.version + 1,
+      metadata: {
+        ...document.metadata,
+        updatedAt: now,
+        lastAccessed: now
+      }
+    };
 
-  //   if (updates.content) {
-  //     updatedDocument.checksum = await this.calculateChecksum(updates.content);
-  //     updatedDocument.size = this.calculateSize(updates.content);
-  //   }
+    if (updates.content) {
+      updatedDocument.checksum = await this.calculateChecksum(updates.content);
+      updatedDocument.size = this.calculateSize(updates.content);
+    }
 
-  //   try {
-  //     await this.nillionManager.updateData(documentId, updatedDocument, {
-  //       title: updatedDocument.title,
-  //       type: updatedDocument.type,
-  //       tags: updatedDocument.tags.join(','),
-  //       size: updatedDocument.size,
-  //       checksum: updatedDocument.checksum,
-  //       version: updatedDocument.version
-  //     });
+    try {
+      await this.nillionManager.updateData(documentId, updatedDocument, {
+        title: updatedDocument.title,
+        type: updatedDocument.type,
+        tags: updatedDocument.tags.join(','),
+        size: updatedDocument.size,
+        checksum: updatedDocument.checksum,
+        version: updatedDocument.version
+      });
 
-  //     this.documentCache.set(documentId, updatedDocument);
-  //   } catch (error) {
-  //     throw new Error(`Failed to update document: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  //   }
-  // }
+      this.documentCache.set(documentId, updatedDocument);
+    } catch (error) {
+      throw new Error(`Failed to update document: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
 
   async deleteDocument(documentId: string): Promise<void> {
     const document = await this.getDocument(documentId);

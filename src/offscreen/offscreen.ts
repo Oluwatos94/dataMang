@@ -18,7 +18,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return false;
   }
 
-  // Handle API call asynchronously
   handleApiCall(message.payload)
     .then((result) => {
       sendResponse({ success: true, data: result });
@@ -28,7 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse({ success: false, error: error.message });
     });
 
-  return true; // Keep channel open for async response
+  return true;
 });
 
 /**
@@ -80,16 +79,13 @@ async function handleApiCall(payload: {
   }
 }
 
-// Wait for DOM to be fully loaded before notifying service worker
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', sendReadyMessage);
 } else {
-  // DOM already loaded
   sendReadyMessage();
 }
 
 function sendReadyMessage() {
-  // Give the extension a moment to set up listeners
   setTimeout(() => {
     chrome.runtime.sendMessage({
       type: 'OFFSCREEN_READY',

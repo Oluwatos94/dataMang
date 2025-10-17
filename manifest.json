@@ -4,8 +4,8 @@
   "short_name": "PDM",
   "version": "1.0.0",
   "description": "Take control of your private data with encrypted storage across multiple Nillion nodes. Grant granular permissions to apps while maintaining complete data sovereignty.",
-  "author": "PDM Team",
-  "homepage_url": "https://github.com/your-org/pdm-extension",
+  "author": "Tosin Akinbowa",
+  "homepage_url": "https://github.com/Oluwatos94/dataMang",
 
   "icons": {
     "16": "assets/icons/icon-16.png",

@@ -1,6 +1,3 @@
-// Background script for PDM extension
-// Handles service worker functionality and extension lifecycle
-
 import { MessageHandler } from '../utils/messaging';
 import { DataManager } from '../utils/data';
 import { PermissionManager } from '../utils/permissions';
@@ -8,7 +5,6 @@ import { IdentityManager } from '../utils/identity';
 import { NillionManager } from '../utils/nillion';
 
 
-// Keep service worker alive
 const KEEP_ALIVE_INTERVAL = 20000;
 setInterval(() => {
   // Ping to keep service worker alive
@@ -49,12 +45,10 @@ async function setupOffscreenDocument() {
                     clearTimeout(timeout);
                     return resolve();
                 } catch (e) {
-                    // The document exists but is not responsive. Close it and create a new one.
                     await chrome.offscreen.closeDocument();
                 }
             }
 
-            // Listen for the OFFSCREEN_READY message
             const readyListener = (message: any) => {
                 if (message.type === 'OFFSCREEN_READY') {
                     clearTimeout(timeout);
@@ -64,7 +58,6 @@ async function setupOffscreenDocument() {
             };
             chrome.runtime.onMessage.addListener(readyListener);
 
-            // Create the offscreen document
             await chrome.offscreen.createDocument({
                 url: 'offscreen.html',
                 reasons: ['DOM_SCRAPING'],
@@ -76,7 +69,6 @@ async function setupOffscreenDocument() {
         }
     });
 
-    // Clear the promise when it's settled
     offscreenPromise.finally(() => {
         offscreenPromise = null;
     });
@@ -119,7 +111,6 @@ async function callOffscreenApi(endpoint: string, method: string, body?: any): P
 // Export for use by NillionManager
 (globalThis as any).__callOffscreenApi = callOffscreenApi;
 
-// Rate limiter for preventing abuse
 class RateLimiter {
   private requests: Map<string, number[]> = new Map();
   private readonly MAX_REQUESTS = 50; // Max requests per window
@@ -129,7 +120,6 @@ class RateLimiter {
     const now = Date.now();
     const timestamps = this.requests.get(origin) || [];
 
-    // Remove old timestamps outside the window
     const validTimestamps = timestamps.filter(ts => now - ts < this.WINDOW_MS);
 
     if (validTimestamps.length >= this.MAX_REQUESTS) {
@@ -162,17 +152,14 @@ let sessionInitialized = false;
 let lastActivityTime: number = Date.now();
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes in milliseconds
 
-// Update last activity time on any action
 function updateActivityTime() {
   lastActivityTime = Date.now();
 }
 
-// Check if session has expired due to inactivity
 function isSessionExpired(): boolean {
   return Date.now() - lastActivityTime > SESSION_TIMEOUT;
 }
 
-// Keep session alive - persist in chrome.storage.session
 async function saveSessionState() {
   if (sessionPassword && sessionInitialized) {
     await chrome.storage.session.set({
@@ -210,10 +197,8 @@ async function initializeNillionSession(password: string): Promise<boolean> {
     sessionPassword = password;
     sessionInitialized = true;
 
-    // Persist session
     await saveSessionState();
 
-    // Also create a session in identityManager so getDID() works
     const userDid = nillionManager.getUserDid();
     if (userDid) {
       await identityManager.createSession(userDid);
@@ -254,7 +239,6 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 // CONSOLIDATED MESSAGE LISTENER - Handle ALL messages in one place
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  // Handle credential check
   if (request.type === 'CHECK_CREDENTIALS') {
     (async () => {
       try {
@@ -265,10 +249,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ hasCredentials: false, error: errMsg });
       }
     })();
-    return true; // Async response
+    return true;
   }
 
-  // Handle credential storage
   if (request.type === 'STORE_CREDENTIALS') {
     (async () => {
       try {
@@ -280,20 +263,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ success: false, error: errMsg });
       }
     })();
-    return true; // Async response
+    return true;
   }
 
-  // ===== HANDLE PDM MESSAGES FROM CONTENT SCRIPTS =====
-  // DEBUG: Log ALL messages to see what we're receiving
-
-
-  // Only handle PDM messages
   if (request.type !== 'PDM_MESSAGE') {
-    return false; // Important to return false for messages we don't handle
+    return false;
   }
 
-
-  // Validate sender has URL (tab info may be missing for file:// URLs)
   if (!sender.url) {
     console.error('[Background] Invalid sender - missing URL');
     return false;
@@ -308,11 +284,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
   }
 
-  // Log sender info for debugging
   if (sender.tab?.id) {
   }
 
-  // Rate limiting check
   const origin = request.payload?.origin || new URL(sender.url).origin;
   if (!rateLimiter.isAllowed(origin)) {
     console.warn('[Background] Rate limit exceeded for:', origin);
@@ -327,7 +301,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
-  // Process the message asynchronously
   handlePDMMessage(request.payload, sender)
     .then((response) => {
       sendResponse({
@@ -354,6 +327,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return true;
 });
 
+
 /**
  * Handle PDM messages from content scripts
  */
@@ -366,7 +340,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
     throw new Error('Session expired due to inactivity. Please unlock again.');
   }
 
-  // Update activity time on each action
   if (sessionInitialized) {
     updateActivityTime();
     await saveSessionState();
@@ -394,19 +367,16 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'store_data':
-        // Ensure the session is unlocked before storing data
         if (!nillionManager.isInitialized()) {
           throw new Error('Session is locked. Please unlock your wallet first.');
         }
 
 
-        // Pass the entire data object including metadata with collectionId
         const documentId = await nillionManager.storeData(data, data.metadata || {});
         responseData = { documentId, success: true };
         break;
 
       case 'retrieve_data':
-        // Ensure the session is unlocked
         if (!nillionManager.isInitialized()) {
           throw new Error('Session is locked. Please unlock your wallet first.');
         }
@@ -417,7 +387,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'delete_data':
-        // Ensure the session is unlocked
         if (!nillionManager.isInitialized()) {
           throw new Error('Session is locked. Please unlock your wallet first.');
         }
@@ -464,7 +433,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'get_user_data':
-        // Ensure the session is unlocked
         if (!nillionManager.isInitialized()) {
           throw new Error('Session is locked. Please unlock your wallet first.');
         }
@@ -488,7 +456,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'list_permissions':
-        // Ensure the session is unlocked
         if (!nillionManager.isInitialized()) {
           throw new Error('Session is locked. Please unlock your wallet first.');
         }
@@ -506,14 +473,12 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'unlock':
-        // Initialize Nillion session with user's password
         const { password: unlockPassword } = data;
         if (!unlockPassword) throw new Error('Password required to unlock');
 
         const unlockSuccess = await initializeNillionSession(unlockPassword);
         if (!unlockSuccess) throw new Error('Failed to unlock - invalid password or credentials not set');
 
-        // Reset activity time on unlock
         updateActivityTime();
         await saveSessionState();
 
@@ -527,7 +492,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
         break;
 
       case 'is_unlocked':
-        // Check if Nillion session is active
         responseData = { unlocked: sessionInitialized, nillionReady: nillionManager.isInitialized() };
         break;
 
@@ -547,7 +511,6 @@ async function handlePDMMessage(message: any, sender: chrome.runtime.MessageSend
  */
 async function handleConnect(origin: string, connectionData: any, sender: chrome.runtime.MessageSender): Promise<any> {
 
-  // Store origin configuration
   await messageHandler.addAllowedOrigin(
     origin,
     connectionData.requestedPermissions || ['read'],
@@ -577,7 +540,6 @@ async function handleDisconnect(origin: string): Promise<any> {
   };
 }
 
-// Listen for tab updates to clean up disconnected origins
 chrome.tabs.onRemoved.addListener((tabId) => {
   // Could clean up any tab-specific state here
 });
