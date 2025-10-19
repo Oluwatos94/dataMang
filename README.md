@@ -1,4 +1,4 @@
-# 🔐 Private Data Manager (PDM) - Nillion Hackathon Submission
+# Private Data Manager (PDM) - Nillion Hackathon Submission
 
 > A Chrome extension that empowers non-developers to fully control their Nillion User Owned Collections through an intuitive interface.
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 🎯 Challenge Solution
+## Challenge Solution
 
 ### The Problem
 Nillion's `SecretVaultUserClient` requires developer skills and backend flows that force users to trust apps with their keys. Non-developers have no way to interact with their private storage.
@@ -18,14 +18,14 @@ Nillion's `SecretVaultUserClient` requires developer skills and backend flows th
 ### Solution
 **Private Data Manager (PDM)** is a browser extension that makes Nillion's privacy-preserving storage accessible to everyday people through:
 
-- 🔑 **Secure DID & Keypair Management** - Browser-based wallet with encrypted storage
-- 📊 **Intuitive Dashboard** - Create, view, and delete private data without code
-- ✅ **User Consent System** - Grant and revoke app permissions through a simple UI
-- 🔄 **Demo Mode Fallback** - Works even when Nillion network is unavailable.
+-  **Secure DID & Keypair Management** - Browser-based wallet with encrypted storage
+-  **Intuitive Dashboard** - Create, view, and delete private data without code
+-  **User Consent System** - Grant and revoke app permissions through a simple UI
+-  **Demo Mode Fallback** - Works even when Nillion network is unavailable.
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 ### 1. Identity Wallet
 - **Automatic DID generation** using secure cryptographic functions
@@ -54,7 +54,7 @@ Nillion's `SecretVaultUserClient` requires developer skills and backend flows th
 
 ---
 
-## 🚀 Quick Start for Judges
+##  Quick Start for Judges
 
 ### Prerequisites
 - **Chrome Browser** (version 88+)
@@ -89,7 +89,7 @@ cp src/offscreen/offscreen.html dist/
 2. Enable **Developer mode** (top-right toggle)
 3. Click **"Load unpacked"**
 4. Select the `dist/` folder
-5. ✅ PDM extension should now appear in your extensions
+5.  PDM extension should now appear in your extensions
 
 ### Step 4: Configure Credentials
 1. **Right-click the PDM extension icon** → Select **"Extension options"**
@@ -98,17 +98,17 @@ cp src/offscreen/offscreen.html dist/
    - **Private Key:** (optional)
    - **Password:** `demo123` (or your chosen password)
 3. Click **"Save Credentials"**
-4. You should see ✅ "Credentials saved successfully!"
+4. You should see  "Credentials saved successfully!"
 
 ### Step 5: Unlock the Extension
 1. **Click the PDM extension icon** in Chrome toolbar
 2. If locked, you'll see an unlock screen
 3. Enter your password: `demo123`
-4. ✅ Extension unlocks and shows the Documents tab
+4.  Extension unlocks and shows the Documents tab
 
 ---
 
-## 🧪 Testing the Extension
+##  Testing the Extension
 
 ### Test 1: Create a Document
 1. In the PDM popup, click **"+ New Document"**
@@ -118,26 +118,26 @@ cp src/offscreen/offscreen.html dist/
    - **Type:** Select "note"
    - **Collection ID:** `pdm_demo_collection`
 3. Click **"Create Document"**
-4. ✅ Document appears in the list
+4.  Document appears in the list
 
 ### Test 2: Grant Permission to an App
 1. Find your created document in the list
-2. Click the **🔑 Grant Permission** button
+2. Click the ** Grant Permission** button
 3. Enter test App DID: `did:nil:health_tracker_app_2024_demo_abc123def456`
 4. Select permissions: **Read**, **Write**
 5. Click **"Grant Permission"**
-6. Go to **Permissions tab** → ✅ Permission should be listed
+6. Go to **Permissions tab** →  Permission should be listed
 
 ### Test 3: Revoke Permission
 1. In the **Permissions tab**, find the permission you just created
 2. Click **"Revoke"** button
-3. ✅ Permission is removed from the list
+3.  Permission is removed from the list
 
 ### Test 4: Delete a Document
 1. Go back to **Documents tab**
-2. Click the **🗑️ Delete** button on any document
+2. Click the ** Delete** button on any document
 3. Confirm deletion
-4. ✅ Document is removed from the list
+4.  Document is removed from the list
 
 ### Test 5: Demo App Integration
 1. **Start the Nillion proxy server:**
@@ -156,16 +156,16 @@ cp src/offscreen/offscreen.html dist/
 
 3. **Open the Health Tracker in Chrome:**
    - Visit `http://localhost:3001/health-tracker.html`
-   - Click **"Check PDM"** → ✅ Extension detected
-   - Click **"Connect to PDM"** → ✅ Connected
+   - Click **"Check PDM"** →  Extension detected
+   - Click **"Connect to PDM"** →  Connected
    - Click **"Unlock PDM"** → Enter password `demo123`
    - Fill in health data and click **"Store Data"**
-   - ✅ Data stored successfully!
+   -  Data stored successfully!
 
 4. **Verify in Extension:**
    - Click PDM extension icon
    - Go to **Documents tab**
-   - ✅ Health data should appear with collection ID `health_data_2024`
+   -  Health data should appear with collection ID `health_data_2024`
 
 ---
 
@@ -248,7 +248,7 @@ cp src/offscreen/offscreen.html dist/
 
 ---
 
-## 🔒 Security Features
+##  Security Features
 
 ### Encryption
 - **AES-256-GCM** for all stored credentials
@@ -363,15 +363,14 @@ const result = await window.PDM.storeData({
 ### How It Works:
 
 ### Features:
-- ✅ Full CRUD operations on documents
-- ✅ Permission granting and revoking
-- ✅ Consistent DID across sessions
-- ✅ Data persistence in browser
-
+-  Full CRUD operations on documents
+-  Permission granting and revoking
+-  Consistent DID across sessions
+-  Data persistence in browser
 
 ---
 
-## 📦 Project Structure
+##  Project Structure
 
 ```
 dataMang/
@@ -430,7 +429,7 @@ dataMang/
 
 ---
 
-## 🚧 Known Limitations & Future Work
+##  Known Limitations & Future Work
 
 ### Current Limitations
 1. **Chrome only** - Firefox support not implemented yet
@@ -472,14 +471,14 @@ Before PDM, using Nillion's User Owned Collections required:
 
 ### Test Scenarios
 We encourage judges to:
-- ✅ Test the full document lifecycle (create → grant → revoke → delete)
-- ✅ Try the health tracker integration
-- ✅ Test session timeout (wait 15 minutes or close/reopen extension)
-- ✅ Verify data persists across extension reloads
+-  Test the full document lifecycle (create → grant → revoke → delete)
+-  Try the health tracker integration
+-  Test session timeout (wait 15 minutes or close/reopen extension)
+-  Verify data persists across extension reloads
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Extension Won't Load
 - Ensure all files are in `dist/` folder
@@ -511,7 +510,7 @@ We encourage judges to:
 
 ---
 
-## 🎬 Video Walkthrough
+##  Video Walkthrough
 
  5-minute demo video showing:
 1. Extension installation and setup
@@ -522,7 +521,7 @@ We encourage judges to:
 
 ---
 
-## 📄 License
+##  License
 
 MIT License - Built for Nillion Hackathon 2025
 
